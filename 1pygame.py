@@ -102,17 +102,19 @@ def check_component(maze, row, col, bag):
 			
 
 	
-def check_victory(maze, guardian_pos, bag, window, text_lose, text_win):
+def check_victory(maze, guardian_pos, bag, window, text_lose, text_win, text_esc):
 	if find_tile(maze, 2) == guardian_pos:
 		if len(bag) == 3:			
 			#print("win")
 			window.fill((0, 0, 0))
-			window.blit(text_win, (300, 300))
+			window.blit(text_win, (360, 300))
+			window.blit(text_esc, (195, 600))
 			return "win"
 		else:
 			#print("lose")
 			window.fill((0, 0, 0))
-			window.blit(text_lose, (300, 300))
+			window.blit(text_lose, (360, 300))
+			window.blit(text_esc, (195, 600))
 			return "lose"	
 	return "run"	
 
@@ -136,14 +138,16 @@ def main():
 		window = pygame.display.set_mode(resolution, pygame.RESIZABLE) #ouverture fenêtre #, pygame.RESIZABLE
 		black = (0, 0, 0)
 		blank = (255, 255, 255)
-		herculanum_font = pygame.font.SysFont("herculanum", 30)
+		herculanum1_font = pygame.font.SysFont("herculanum", 35)
+		herculanum2_font = pygame.font.SysFont("herculanum", 15)
 		bag = [] 
 		state = "run"
 		running = True
-		text_bag = herculanum_font.render("bag", True, blank)
-		text_fleche = herculanum_font.render("☟", True, blank)	
-		text_win = herculanum_font.render("WIN !", True, blank)
-		text_lose = herculanum_font.render("LOSE !", True, blank)
+		text_bag = herculanum1_font.render("bag", True, blank)
+		text_fleche = herculanum1_font.render("☟", True, blank)	
+		text_win = herculanum1_font.render("WIN !", True, blank)
+		text_lose = herculanum1_font.render("LOSE !", True, blank)
+		text_esc = herculanum2_font.render("Press 'ESC' to quit,  any other key will restart the game.", True, blank)
 		images = {
 			"wall_image" : pygame.image.load("wall.png").convert_alpha(), 
 			"tube_image" : pygame.image.load("tube.png").convert_alpha(),
@@ -184,7 +188,7 @@ def main():
 				else:
 					if event.type == pygame.KEYDOWN:
 						running = False			
-			state = check_victory(maze, guardian_pos, bag, window, text_lose, text_win)	
+			state = check_victory(maze, guardian_pos, bag, window, text_lose, text_win, text_esc)	
 
 			pygame.display.flip() #rafraîchissement de l'affichage
 
